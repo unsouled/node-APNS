@@ -4,8 +4,8 @@ var nodeunit = require('nodeunit');
 module.exports = nodeunit.testCase({
     setUp: function(callback) {
         invalidToken = 'gfeaws';
-        validNotRegisteredToken = '00000000';
-        validRegisteredToken = '11111111';
+        validNotRegisteredToken = '0000000000000000000000000000000000000000000000000000000000000000';
+        validRegisteredToken = 'b071e0ecebc859e60310f7671d7d1bd3dbc2b760ed258fbe3d76ec974ccd4e89';
         callback();
     },
     tearDown: function(callback) {
@@ -13,12 +13,16 @@ module.exports = nodeunit.testCase({
     },
     testValidPush: function(test) {
         var validOptions = {
-            deviceToken: validRegisteredToken
+            deviceToken: validRegisteredToken,
+            payload: {
+                alert: 'Hello, APNS'
+            }
         };
         apns.push(validOptions, function() {
             test.done();
         });
     },
+    /*
     testValidEnhancedPush: function(test) {
         var validOptions = {};
         apns.enhancedPush(validOptions, function() {
@@ -58,4 +62,5 @@ module.exports = nodeunit.testCase({
             test.done();
         });
     },
+    */
 });
