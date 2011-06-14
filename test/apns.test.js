@@ -22,25 +22,40 @@ module.exports = nodeunit.testCase({
             test.done();
         });
     },
-    /*
     testValidEnhancedPush: function(test) {
-        var validOptions = {};
-        apns.enhancedPush(validOptions, function() {
+        var validOptions = {
+            deviceToken: validRegisteredToken,
+            payload: {
+                alert: 'Hello, APNS'
+            }
+        };
+        var request = apns.enhancedPush(validOptions, function() {
             test.done();
         });
     },
-    testInvalidTokenEnhancedPush: function(test) {
-        var invalidOptions = {};
+    testMissingDeviceTokenEnhancedPush: function(test) {
+        var invalidOptions = {
+        };
         var request = apns.enhancedPush(invalidOptions, function() {});
         request.on('error', function(status, message) {
-            test.equals(apns.errorCode.INVALID_TOKEN, status);
+            test.equals(apns.errorCode.MISSING_DEVICE_TOKEN, status);
+            test.done();
+        });
+    },
+    testMissingTopicEnhancedPush: function(test) {
+        var invalidOptions = {
+        };
+        var request = apns.enhancedPush(invalidOptions, function() {});
+        request.on('error', function(status, message) {
+            test.equals(apns.errorCode.MISSING_TOPIC, status);
             test.done();
         });
     },
     testMissingPayloadEnhancedPush: function(test) {
-        var invalidOptions = {};
+        var invalidOptions = {
+        };
         var request = apns.enhancedPush(invalidOptions, function() {});
-        request = apns.on('error', function(status, message) {
+        request.on('error', function(status, message) {
             test.equals(apns.errorCode.MISSING_PAYLOAD, status);
             test.done();
         });
@@ -52,7 +67,14 @@ module.exports = nodeunit.testCase({
             test.equals(apns.errorCode.INVALID_TOKEN_SIZE, status);
             test.done();
         });
-
+    },
+    testInvalidTopicSizeEnhancedPush: function(test) {
+        var invalidOptions = {};
+        var request = apns.enhancedPush(invalidOptions, function() {});
+        request = apns.on('error', function(status, message) {
+            test.equals(apns.errorCode.INVALID_TOPIC_SIZE, status);
+            test.done();
+        });
     },
     testInvalidPayloadSizeEnhancedPush: function(test) {
         var invalidOptions = {};
@@ -62,5 +84,13 @@ module.exports = nodeunit.testCase({
             test.done();
         });
     },
-    */
+    testInvalidTokenEnhancedPush: function(test) {
+        var invalidOptions = {
+        };
+        var request = apns.enhancedPush(invalidOptions, function() {});
+        request.on('error', function(status, message) {
+            test.equals(apns.errorCode.INVALID_TOKEN, status);
+            test.done();
+        });
+    },
 });
